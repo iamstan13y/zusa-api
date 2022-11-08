@@ -1,7 +1,5 @@
 ﻿using ClosedXML.Excel;
-using System.ComponentModel;
 using ZUSA.API.Models.Data;
-using ZUSA.API.Models.Local;
 
 namespace ZUSA.API.Services
 {
@@ -11,12 +9,12 @@ namespace ZUSA.API.Services
         public async Task<IEnumerable<TeamMember>> ExtractRecordsAsync(IFormFile excelFile)
         {
             using var workbook = new XLWorkbook(excelFile.OpenReadStream());
-            
+
             var worksheet = workbook.Worksheets.First();
             int noOfColumns = worksheet.LastColumnUsed().ColumnNumber();
             int noOfRows = worksheet.LastRowUsed().RowNumber();
             List<TeamMember> teamMembers = new();
-            
+
             for (int rowIterator = 2; rowIterator <= noOfRows; rowIterator++)
             {
                 var member = new TeamMember
