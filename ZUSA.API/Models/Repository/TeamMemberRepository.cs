@@ -16,7 +16,7 @@ namespace ZUSA.API.Models.Repository
             _excelService = excelService;
         }
 
-        public async Task<Result<string>> AddBulkAsync(TeamMembersRequest request)    
+        public async Task<Result<string>> AddBulkAsync(TeamMembersRequest request)
         {
             var teamMembers = await _excelService.ExtractRecordsAsync(request.TeamExcelFile!);
 
@@ -24,10 +24,10 @@ namespace ZUSA.API.Models.Repository
             {
                 member.SubscriptionId = request.SubscriptionId;
             });
-            
+
             await _context.TeamMembers!.AddRangeAsync(teamMembers);
             await _context.SaveChangesAsync();
-            
+
             return new Result<string>("Team members added successfully");
         }
 
