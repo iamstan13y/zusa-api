@@ -29,7 +29,7 @@ namespace ZUSA.API.Models.Repository
                 .Include(s => s.Sport)
                 .Where(s => s.SchoolId == schoolId)
                 .ToListAsync();
-            
+
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
@@ -44,7 +44,7 @@ namespace ZUSA.API.Models.Repository
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
-        
+
         public async Task<Result<bool>> ToggleStatusAsync(int subscriptionId)
         {
             var subscription = await _dbSet.FindAsync(subscriptionId);
@@ -52,8 +52,8 @@ namespace ZUSA.API.Models.Repository
 
             if ((DateTime.Now - subscription.DateCreated).Hours > 72)
                 return new Result<bool>(false, "Your permissible time to edit this subscription has expired");
-            
-                subscription.IsActive = !subscription.IsActive;
+
+            subscription.IsActive = !subscription.IsActive;
 
             return new Result<bool>(true, "Subscription updated successfully.");
         }
