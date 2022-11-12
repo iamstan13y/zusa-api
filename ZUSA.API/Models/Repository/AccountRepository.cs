@@ -34,7 +34,7 @@ namespace ZUSA.API.Models.Repository
                     return new Result<Account>(false, "An account with that email already exists!");
 
                 account.Password = _passwordService.HashPassword(account.Password!);
-                
+
                 await _context.ZAccounts!.AddAsync(account);
 
                 var code = await _codeGeneratorService.GenerateVerificationCode();
@@ -96,7 +96,7 @@ namespace ZUSA.API.Models.Repository
 
             var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
             if (code == null) return new Result<Account>(false, "Invalid OTP code provided!");
-        
+
             account.IsActive = true;
 
             _context.ZAccounts!.Update(account);
