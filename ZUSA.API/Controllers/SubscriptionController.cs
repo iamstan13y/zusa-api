@@ -24,7 +24,7 @@ namespace ZUSA.API.Controllers
         {
             var subscription = await _unitOfWork.Subscription.FindAsync(id);
             if (subscription == null) return NotFound();
-            
+
             return Ok(subscription);
         }
 
