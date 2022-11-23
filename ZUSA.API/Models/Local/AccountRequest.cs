@@ -10,6 +10,5 @@ namespace ZUSA.API.Models.Local
         public string? PhoneNumber { get; set; }
         public string? Password { get; set; }
         public int SchoolId { get; set; }
-        public Role Role { get; set; }
     }
 }
