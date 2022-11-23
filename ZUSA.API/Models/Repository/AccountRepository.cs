@@ -102,23 +102,22 @@ namespace ZUSA.API.Models.Repository
             return new Result<Account>(account, "Account registration complete!");
         }
 
-        //public async Task<Result<Account>> LoginAsync(LoginRequest login)
-        //{
-        //    var account = await _context.Accounts!
-        //        .Where(x => x.UserName == login.UserName)
-        //        .Include(x => x.Role)
-        //        .FirstOrDefaultAsync();
+        public async Task<Result<Account>> LoginAsync(LoginRequest login)
+        {
+            var account = await _context.ZAccounts!
+                .Where(x => x.Email == login.Email)
+                .FirstOrDefaultAsync();
 
-        //    if (account != null && account.Status != Status.Verified) return new Result<Account>(false, new List<string> { "Please complete sign up process for this account!" });
+            if (account != null && !account.IsActive) return new Result<Account>(false, "Please complete sign up process for this account!");
 
-        //    if (account == null || _passwordService.VerifyHash(login.Password!, account!.Password!) == false)
-        //        return new Result<Account>(false, new List<string>() { "Username or password is incorrect!" });
+            if (account == null || _passwordService.VerifyHash(login.Password!, account!.Password!) == false)
+                return new Result<Account>(false, "Username or password is incorrect!");
 
-        //    account.Token = await _jwtService.GenerateToken(account);
-        //    account.Password = "*************";
+            account.Token = await _jwtService.GenerateToken(account);
+            account.Password = "*************";
 
-        //    return new Result<Account>(account);
-        //}
+            return new Result<Account>(account);
+        }
 
         private bool IsUniqueUser(string email)
         {
