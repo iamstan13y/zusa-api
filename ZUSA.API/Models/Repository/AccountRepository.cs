@@ -86,41 +86,38 @@ namespace ZUSA.API.Models.Repository
             throw new NotImplementedException();
         }
 
-        //public async Task<Result<Account>> CompleteSignUpAsync(CompleteSignUpRequest request)
-        //{
-        //    var account = await _context.Accounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
-        //    if (account == null) return new Result<Account>(false, new List<string>() { "User account not found!" });
+        public async Task<Result<Account>> VerifyOtpAsync(VerifyOtpRequest request)
+        {
+            var account = await _context.ZAccounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
+            if (account == null) return new Result<Account>(false, "User account not found!");
 
-        //    var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.OtpCode).FirstOrDefaultAsync();
-        //    if (code == null) return new Result<Account>(false, new List<string>() { "Invalid OTP code provided!" });
+            var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
+            if (code == null) return new Result<Account>(false, "Invalid OTP code provided!");
+        
+            account.IsActive = true;
 
-        //    account.UserName = request.UserName;
-        //    account.Status = Status.Verified;
-        //    account.Password = _passwordService.HashPassword(request.Password!);
+            _context.ZAccounts!.Update(account);
+            await _context.SaveChangesAsync();
 
-        //    _context.Accounts!.Update(account);
-        //    await _context.SaveChangesAsync();
+            return new Result<Account>(account, "Account registration complete!");
+        }
 
-        //    return new Result<Account>(account, new List<string>() { "Account registration complete!" });
-        //}
+        public async Task<Result<Account>> LoginAsync(LoginRequest login)
+        {
+            var account = await _context.ZAccounts!
+                .Where(x => x.Email == login.Email)
+                .FirstOrDefaultAsync();
 
-        //public async Task<Result<Account>> LoginAsync(LoginRequest login)
-        //{
-        //    var account = await _context.Accounts!
-        //        .Where(x => x.UserName == login.UserName)
-        //        .Include(x => x.Role)
-        //        .FirstOrDefaultAsync();
+            if (account != null && !account.IsActive) return new Result<Account>(false, "Please complete sign up process for this account!");
 
-        //    if (account != null && account.Status != Status.Verified) return new Result<Account>(false, new List<string> { "Please complete sign up process for this account!" });
+            if (account == null || _passwordService.VerifyHash(login.Password!, account!.Password!) == false)
+                return new Result<Account>(false, "Username or password is incorrect!");
 
-        //    if (account == null || _passwordService.VerifyHash(login.Password!, account!.Password!) == false)
-        //        return new Result<Account>(false, new List<string>() { "Username or password is incorrect!" });
+            account.Token = await _jwtService.GenerateToken(account);
+            account.Password = "*************";
 
-        //    account.Token = await _jwtService.GenerateToken(account);
-        //    account.Password = "*************";
-
-        //    return new Result<Account>(account);
-        //}
+            return new Result<Account>(account);
+        }
 
         private bool IsUniqueUser(string email)
         {

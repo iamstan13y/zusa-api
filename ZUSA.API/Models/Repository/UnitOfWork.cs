@@ -8,11 +8,11 @@ namespace ZUSA.API.Models.Repository
     {
         private readonly AppDbContext _context;
 
-        //public IEventTypeRepository EventType { get; private set; }
-
+        public ISchoolRepository School { get; private set; }
+        
         public UnitOfWork(AppDbContext context)
         {
-            //EventType = new EventTypeRepository(context);
+            School = new SchoolRepository(context);
             _context = context;
         }
 

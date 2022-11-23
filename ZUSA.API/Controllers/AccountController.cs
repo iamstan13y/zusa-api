@@ -26,6 +26,7 @@ namespace ZUSA.API.Controllers
                 Email = request.Email,
                 Role = request.Role,
                 PhoneNumber = request.PhoneNumber,
+                SchoolId = request.SchoolId,
                 DateCreated = DateTime.Now
             });
 
@@ -50,27 +51,27 @@ namespace ZUSA.API.Controllers
         //    return Ok(result);
         //}
 
-        //[HttpPost("login")]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status403Forbidden)]
-        //public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        //{
-        //    var result = await _accountRepository.LoginAsync(request);
+        [HttpPost("login")]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _accountRepository.LoginAsync(request);
 
-        //    if (!result.Success)
-        //        return StatusCode(StatusCodes.Status403Forbidden, result);
+            if (!result.Success)
+                return StatusCode(StatusCodes.Status403Forbidden, result);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
-        //[HttpPost("complete-sign-up")]
-        //public async Task<IActionResult> ConfirmAccount(CompleteSignUpRequest request)
-        //{
-        //    var result = await _accountRepository.CompleteSignUpAsync(request);
-        //    if (!result.Success) return BadRequest(result);
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> ConfirmAccount(VerifyOtpRequest request)
+        {
+            var result = await _accountRepository.VerifyOtpAsync(request);
+            if (!result.Success) return BadRequest(result);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[HttpPost("change-password")]
         //[Authorize]
