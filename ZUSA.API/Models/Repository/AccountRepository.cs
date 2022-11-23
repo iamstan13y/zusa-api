@@ -127,21 +127,21 @@ namespace ZUSA.API.Models.Repository
             return false;
         }
 
-        //public async Task<Result<Account>> ChangePasswordAsync(ChangePasswordRequest changePassword)
-        //{
-        //    var account = await GetByIdAsync(changePassword.UserId);
-        //    if (!account.Success) return account;
+        public async Task<Result<Account>> ChangePasswordAsync(ChangePasswordRequest changePassword)
+        {
+            var account = await GetByIdAsync(changePassword.UserId);
+            if (!account.Success) return account;
 
-        //    if (_passwordService.VerifyHash(changePassword.OldPassword!, account.Data!.Password!) == false)
-        //        return new Result<Account>(false, new List<string>() { "Old password mismatch" });
+            if (_passwordService.VerifyHash(changePassword.OldPassword!, account.Data!.Password!) == false)
+                return new Result<Account>(false, "Old password mismatch");
 
-        //    account.Data.Password = _passwordService.HashPassword(changePassword.NewPassword!);
+            account.Data.Password = _passwordService.HashPassword(changePassword.NewPassword!);
 
-        //    _context.Accounts!.Update(account.Data);
-        //    await _context.SaveChangesAsync();
+            _context.ZAccounts!.Update(account.Data);
+            await _context.SaveChangesAsync();
 
-        //    return new Result<Account>(account.Data);
-        //}
+            return new Result<Account>(account.Data);
+        }
 
         //public async Task<Result<string>> ResendOtpAsync(string email)
         //{
