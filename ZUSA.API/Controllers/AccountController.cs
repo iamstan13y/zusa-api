@@ -40,8 +40,8 @@ namespace ZUSA.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll() => Ok(await _accountRepository.GetAllAsync());
 
-        //[HttpGet("paged")]
-        //public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
 
         //[HttpGet("sign-up/resend-otp/{email}")]
         //[ProducesResponseType(typeof(Result<string>), StatusCodes.Status200OK)]
