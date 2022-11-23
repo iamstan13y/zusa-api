@@ -14,7 +14,7 @@ namespace ZUSA.API.Controllers
         public SchoolController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-        }
+        }   
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _unitOfWork.School.GetAllAsync());
