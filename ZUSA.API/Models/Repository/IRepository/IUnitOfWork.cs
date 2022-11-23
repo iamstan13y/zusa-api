@@ -2,6 +2,7 @@
 {
     public interface IUnitOfWork
     {
+        ISchoolRepository School {get;}
         void SaveChanges();
     }
 }
