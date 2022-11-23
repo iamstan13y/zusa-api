@@ -13,7 +13,7 @@ namespace ZUSA.API.Services
             _configuration = configuration;
         }
 
-        public Task<Result<string>> SendEmailAsync(EmailRequest email)
+        public Task<Result<bool>> SendEmailAsync(EmailRequest email)
         {
             MailMessage emailMessage = new()
             {
@@ -34,11 +34,11 @@ namespace ZUSA.API.Services
             try
             {
                 mailClient.Send(emailMessage);
-                return Task.FromResult(new Result<string>("Email sent successfully!"));
+                return Task.FromResult(new Result<bool>(true));
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new Result<string>(false, ex.ToString()));
+                return Task.FromResult(new Result<bool>(false));
             }
         }
     }
