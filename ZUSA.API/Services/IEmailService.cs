@@ -4,6 +4,6 @@ namespace ZUSA.API.Services
 {
     public interface IEmailService
     {
-        Task<Result<string>> SendEmailAsync(EmailRequest email);
+        Task<Result<bool>> SendEmailAsync(EmailRequest email);
     }
 }
