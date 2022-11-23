@@ -33,6 +33,8 @@ namespace ZUSA.API.Models.Repository
                 if (!IsUniqueUser(account.Email!))
                     return new Result<Account>(false, "An account with that email already exists!");
 
+                account.Password = _passwordService.HashPassword(account.Password!);
+                
                 await _context.ZAccounts!.AddAsync(account);
 
                 var code = await _codeGeneratorService.GenerateVerificationCode();
