@@ -11,6 +11,7 @@ namespace ZUSA.API.Models.Data
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Password { get; set; }
+        public bool IsActive { get; set; } = false;
         public Role Role { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         [NotMapped]
