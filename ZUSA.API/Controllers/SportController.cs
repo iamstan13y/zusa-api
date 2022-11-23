@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Models.Data;
+using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
 
 namespace ZUSA.API.Controllers
@@ -22,6 +24,21 @@ namespace ZUSA.API.Controllers
         {
             var result = await _unitOfWork.Sport.FindAsync(id);
             if (!result.Success) return NotFound(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] SportRequest request)
+        {
+            var result = await _unitOfWork.Sport.AddAsync(new Sport
+            {
+                Name = request.Name
+            });
+
+            if (!result.Success) return BadRequest(result);
+
+            _unitOfWork.SaveChanges();
 
             return Ok(result);
         }
