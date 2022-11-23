@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Enums;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
@@ -24,7 +25,7 @@ namespace ZUSA.API.Controllers
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
-                Role = request.Role,
+                Role = Role.USER,
                 PhoneNumber = request.PhoneNumber,
                 SchoolId = request.SchoolId,
                 DateCreated = DateTime.Now
