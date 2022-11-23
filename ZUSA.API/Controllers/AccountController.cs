@@ -26,6 +26,7 @@ namespace ZUSA.API.Controllers
                 Email = request.Email,
                 Role = request.Role,
                 PhoneNumber = request.PhoneNumber,
+                SchoolId = request.SchoolId,
                 DateCreated = DateTime.Now
             });
 
