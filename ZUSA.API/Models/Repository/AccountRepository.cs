@@ -3,6 +3,7 @@ using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
 using ZUSA.API.Services;
+using ZUSA.API.Utility;
 
 namespace ZUSA.API.Models.Repository
 {
@@ -223,11 +224,11 @@ namespace ZUSA.API.Models.Repository
         //    return new Result<Account>(account, new List<string> { "Your password has been resetted successfully." });
         //}
 
-        //public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
-        //{
-        //    var users = await _context.Accounts!.Include(x => x.Role).ToListAsync();
+        public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
+        {
+            var users = await _context.ZAccounts!.Include(x => x.Role).ToListAsync();
 
-        //    return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
-        //}
+            return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
+        }
     }
 }
