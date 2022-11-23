@@ -102,6 +102,22 @@ namespace ZUSA.API.Migrations
                     b.ToTable("Schools");
                 });
 
+            modelBuilder.Entity("ZUSA.API.Models.Data.Sport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sports");
+                });
+
             modelBuilder.Entity("ZUSA.API.Models.Data.Account", b =>
                 {
                     b.HasOne("ZUSA.API.Models.Data.School", "School")
