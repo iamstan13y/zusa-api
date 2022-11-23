@@ -50,18 +50,18 @@ namespace ZUSA.API.Controllers
         //    return Ok(result);
         //}
 
-        //[HttpPost("login")]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status403Forbidden)]
-        //public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        //{
-        //    var result = await _accountRepository.LoginAsync(request);
+        [HttpPost("login")]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _accountRepository.LoginAsync(request);
 
-        //    if (!result.Success)
-        //        return StatusCode(StatusCodes.Status403Forbidden, result);
+            if (!result.Success)
+                return StatusCode(StatusCodes.Status403Forbidden, result);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         [HttpPost("verify-otp")]
         public async Task<IActionResult> ConfirmAccount(VerifyOtpRequest request)
