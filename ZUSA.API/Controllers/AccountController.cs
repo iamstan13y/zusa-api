@@ -36,11 +36,12 @@ namespace ZUSA.API.Controllers
             return Ok(result);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll() => Ok(await _accountRepository.GetAllAsync());
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll() => Ok(await _accountRepository.GetAllAsync());
 
-        //[HttpGet("paged")]
-        //public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
 
         //[HttpGet("sign-up/resend-otp/{email}")]
         //[ProducesResponseType(typeof(Result<string>), StatusCodes.Status200OK)]
@@ -74,17 +75,17 @@ namespace ZUSA.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("change-password")]
-        //[Authorize]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(Result<Account>), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
-        //{
-        //    var result = await _accountRepository.ChangePasswordAsync(request);
-        //    if (!result.Success) return BadRequest(result);
+        [HttpPost("change-password")]
+        [Authorize]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            var result = await _accountRepository.ChangePasswordAsync(request);
+            if (!result.Success) return BadRequest(result);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[HttpGet("reset-password/verification-code/{email}")]
         //[ProducesResponseType(typeof(Result<string>), StatusCodes.Status200OK)]

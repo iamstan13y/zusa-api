@@ -3,6 +3,7 @@ using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
 using ZUSA.API.Services;
+using ZUSA.API.Utility;
 
 namespace ZUSA.API.Models.Repository
 {
@@ -127,21 +128,21 @@ namespace ZUSA.API.Models.Repository
             return false;
         }
 
-        //public async Task<Result<Account>> ChangePasswordAsync(ChangePasswordRequest changePassword)
-        //{
-        //    var account = await GetByIdAsync(changePassword.UserId);
-        //    if (!account.Success) return account;
+        public async Task<Result<Account>> ChangePasswordAsync(ChangePasswordRequest changePassword)
+        {
+            var account = await GetByIdAsync(changePassword.UserId);
+            if (!account.Success) return account;
 
-        //    if (_passwordService.VerifyHash(changePassword.OldPassword!, account.Data!.Password!) == false)
-        //        return new Result<Account>(false, new List<string>() { "Old password mismatch" });
+            if (_passwordService.VerifyHash(changePassword.OldPassword!, account.Data!.Password!) == false)
+                return new Result<Account>(false, "Old password mismatch");
 
-        //    account.Data.Password = _passwordService.HashPassword(changePassword.NewPassword!);
+            account.Data.Password = _passwordService.HashPassword(changePassword.NewPassword!);
 
-        //    _context.Accounts!.Update(account.Data);
-        //    await _context.SaveChangesAsync();
+            _context.ZAccounts!.Update(account.Data);
+            await _context.SaveChangesAsync();
 
-        //    return new Result<Account>(account.Data);
-        //}
+            return new Result<Account>(account.Data);
+        }
 
         //public async Task<Result<string>> ResendOtpAsync(string email)
         //{
@@ -223,11 +224,11 @@ namespace ZUSA.API.Models.Repository
         //    return new Result<Account>(account, new List<string> { "Your password has been resetted successfully." });
         //}
 
-        //public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
-        //{
-        //    var users = await _context.Accounts!.Include(x => x.Role).ToListAsync();
+        public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
+        {
+            var users = await _context.ZAccounts!.Include(x => x.Role).ToListAsync();
 
-        //    return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
-        //}
+            return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
+        }
     }
 }
