@@ -4,6 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using ZUSA.API.Models.Local;
+using ZUSA.API.Models.Repository;
+using ZUSA.API.Models.Repository.IRepository;
+using ZUSA.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-//builder.Services.AddScoped<IPasswordService, PasswordService>();
-//builder.Services.AddScoped<IJwtService, JwtService>();
-//builder.Services.AddScoped<IEmailService, EmailService>();
-//builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
 
 builder.Services.AddControllers();
 
