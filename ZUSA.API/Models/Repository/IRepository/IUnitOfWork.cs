@@ -3,6 +3,7 @@
     public interface IUnitOfWork
     {
         ISchoolRepository School {get;}
+        ISportRepository Sport {get;}
         void SaveChanges();
     }
 }
