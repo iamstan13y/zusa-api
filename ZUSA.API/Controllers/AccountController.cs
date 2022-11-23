@@ -36,8 +36,9 @@ namespace ZUSA.API.Controllers
             return Ok(result);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll() => Ok(await _accountRepository.GetAllAsync());
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll() => Ok(await _accountRepository.GetAllAsync());
 
         //[HttpGet("paged")]
         //public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
