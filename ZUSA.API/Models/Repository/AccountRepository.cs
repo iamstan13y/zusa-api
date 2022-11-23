@@ -86,23 +86,21 @@ namespace ZUSA.API.Models.Repository
             throw new NotImplementedException();
         }
 
-        //public async Task<Result<Account>> CompleteSignUpAsync(CompleteSignUpRequest request)
-        //{
-        //    var account = await _context.Accounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
-        //    if (account == null) return new Result<Account>(false, new List<string>() { "User account not found!" });
+        public async Task<Result<Account>> VerifyOtpAsync(VerifyOtpRequest request)
+        {
+            var account = await _context.ZAccounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
+            if (account == null) return new Result<Account>(false, "User account not found!");
 
-        //    var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.OtpCode).FirstOrDefaultAsync();
-        //    if (code == null) return new Result<Account>(false, new List<string>() { "Invalid OTP code provided!" });
+            var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
+            if (code == null) return new Result<Account>(false, "Invalid OTP code provided!");
+        
+            account.IsActive = true;
 
-        //    account.UserName = request.UserName;
-        //    account.Status = Status.Verified;
-        //    account.Password = _passwordService.HashPassword(request.Password!);
+            _context.ZAccounts!.Update(account);
+            await _context.SaveChangesAsync();
 
-        //    _context.Accounts!.Update(account);
-        //    await _context.SaveChangesAsync();
-
-        //    return new Result<Account>(account, new List<string>() { "Account registration complete!" });
-        //}
+            return new Result<Account>(account, "Account registration complete!");
+        }
 
         //public async Task<Result<Account>> LoginAsync(LoginRequest login)
         //{
