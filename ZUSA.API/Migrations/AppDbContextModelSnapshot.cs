@@ -54,7 +54,12 @@ namespace ZUSA.API.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("ZAccounts");
                 });
@@ -79,6 +84,33 @@ namespace ZUSA.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GeneratedCodes");
+                });
+
+            modelBuilder.Entity("ZUSA.API.Models.Data.School", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Schools");
+                });
+
+            modelBuilder.Entity("ZUSA.API.Models.Data.Account", b =>
+                {
+                    b.HasOne("ZUSA.API.Models.Data.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
                 });
 #pragma warning restore 612, 618
         }
