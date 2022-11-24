@@ -27,5 +27,8 @@ namespace ZUSA.API.Controllers
 
         [HttpGet("{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _teamMemberRepository.GetBySportIdAsync(sportId));
+
+        [HttpGet("{schoolId}/{sportId}")]
+        public async Task<IActionResult> GetBySchoolAndSport(int schoolId, int sportId) => Ok(await _teamMemberRepository.GetBySchoolAndSportIdAsync(schoolId, sportId));
     }
 }
