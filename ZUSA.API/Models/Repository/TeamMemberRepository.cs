@@ -65,5 +65,17 @@ namespace ZUSA.API.Models.Repository
 
             return new Result<IEnumerable<TeamMember>>(teamMembers);
         }
+
+        public async Task<Result<IEnumerable<TeamMember>>> GetBySubscriptionIdAsync(int subscriptionId)
+        {
+            var teamMembers = await _context.TeamMembers!
+                .Where(x => x.SubscriptionId == subscriptionId)
+                .Include(x => x.Subscription)
+                .ThenInclude(x => x!.School)
+                .Include(x => x.Subscription!.Sport)
+                .ToListAsync();
+
+            return new Result<IEnumerable<TeamMember>>(teamMembers);
+        }
     }
 }
