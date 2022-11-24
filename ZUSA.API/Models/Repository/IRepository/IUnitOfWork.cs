@@ -4,6 +4,7 @@
     {
         ISchoolRepository School {get;}
         ISportRepository Sport {get;}
+        ISubscriptionRepository Subscription {get;}
         void SaveChanges();
     }
 }
