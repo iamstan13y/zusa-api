@@ -1,4 +1,7 @@
-﻿using ZUSA.API.Models.Local;
+﻿using Microsoft.EntityFrameworkCore;
+using ZUSA.API.Models.Data;
+using ZUSA.API.Models.Local;
+using ZUSA.API.Models.Repository.IRepository;
 using ZUSA.API.Services;
 
 namespace ZUSA.API.Models.Repository
@@ -27,6 +30,39 @@ namespace ZUSA.API.Models.Repository
             await _context.SaveChangesAsync();
             
             return new Result<string>("Team members added successfully");
+        }
+
+        public async Task<Result<IEnumerable<TeamMember>>> GetBySchoolAndSportIdAsync(int schoolId, int sportId)
+        {
+            var teamMembers = await _context.TeamMembers!
+               .Where(x => x.SchoolId == schoolId && x.SportId == sportId)
+               .Include(x => x.Sport)
+               .Include(x => x.School)
+               .ToListAsync();
+
+            return new Result<IEnumerable<TeamMember>>(teamMembers);
+        }
+
+        public async Task<Result<IEnumerable<TeamMember>>> GetBySchoolIdAsync(int schoolId)
+        {
+            var teamMembers = await _context.TeamMembers!
+                .Where(x => x.SchoolId == schoolId)
+                .Include(x => x.Sport)
+                .Include(x => x.School)
+                .ToListAsync();
+
+            return new Result<IEnumerable<TeamMember>>(teamMembers);
+        }
+
+        public async Task<Result<IEnumerable<TeamMember>>> GetBySportIdAsync(int sportId)
+        {
+            var teamMembers = await _context.TeamMembers!
+                .Where(x => x.SportId == sportId)
+                .Include(x => x.Sport)
+                .Include(x => x.School)
+                .ToListAsync();
+
+            return new Result<IEnumerable<TeamMember>>(teamMembers);
         }
     }
 }
