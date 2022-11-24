@@ -12,6 +12,16 @@ namespace ZUSA.API.Models.Repository
 
         }
 
+        public async new Task<Result<Subscription>> AddAsync(Subscription sub)
+        {
+            var subscription = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == sub.SchoolId).FirstOrDefaultAsync();
+            if (subscription != null) return new Result<Subscription>(false, "Sorry! You've already subscribed for this sport.");
+
+            await _dbSet.AddAsync(sub);
+
+            return new Result<Subscription>(sub);
+        }
+
         public async Task<Result<IEnumerable<Subscription>>> GetBySchoolIdAsync(int schoolId)
         {
             var subscriptions = await _dbSet!
