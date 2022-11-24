@@ -9,5 +9,15 @@ namespace ZUSA.API.Models.Repository
         public SubscriptionRepository(AppDbContext context) : base(context)
         {
         }
+
+        public Task<Result<IEnumerable<Subscription>>> GetBySchoolIdAsync(int schoolId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<IEnumerable<Subscription>>> GetBySportIdAsync(int sportId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
