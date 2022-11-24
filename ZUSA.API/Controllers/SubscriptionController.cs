@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Repository.IRepository;
 
 namespace ZUSA.API.Controllers
@@ -28,5 +29,8 @@ namespace ZUSA.API.Controllers
 
         [HttpGet("sport/{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _unitOfWork.Subscription.GetBySportIdAsync(sportId));
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _unitOfWork.Subscription.GetBySchoolIdAsync(schoolId));
     }
 }
