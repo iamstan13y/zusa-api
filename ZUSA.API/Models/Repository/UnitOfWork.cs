@@ -10,11 +10,13 @@ namespace ZUSA.API.Models.Repository
 
         public ISchoolRepository School { get; private set; }
         public ISportRepository Sport { get; private set; }
+        public ISubscriptionRepository Subscription { get; private set; }
         
         public UnitOfWork(AppDbContext context)
         {
             School = new SchoolRepository(context);
             Sport = new SportRepository(context);
+            Subscription = new SubscriptionRepository(context);
             _context = context;
         }
 
