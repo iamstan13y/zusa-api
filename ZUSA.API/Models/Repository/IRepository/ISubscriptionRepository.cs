@@ -7,5 +7,6 @@ namespace ZUSA.API.Models.Repository.IRepository
     {
         Task<Result<IEnumerable<Subscription>>> GetBySportIdAsync(int sportId);
         Task<Result<IEnumerable<Subscription>>> GetBySchoolIdAsync(int schoolId);
+        Task<Result<bool>> ToggleStatusAsync(int subscriptionId);
     }
 }
