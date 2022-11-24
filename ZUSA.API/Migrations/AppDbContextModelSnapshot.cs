@@ -118,6 +118,35 @@ namespace ZUSA.API.Migrations
                     b.ToTable("Sports");
                 });
 
+            modelBuilder.Entity("ZUSA.API.Models.Data.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("SportId");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
                 {
                     b.Property<int>("Id")
@@ -171,6 +200,25 @@ namespace ZUSA.API.Migrations
                         .IsRequired();
 
                     b.Navigation("School");
+                });
+
+            modelBuilder.Entity("ZUSA.API.Models.Data.Subscription", b =>
+                {
+                    b.HasOne("ZUSA.API.Models.Data.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ZUSA.API.Models.Data.Sport", "Sport")
+                        .WithMany()
+                        .HasForeignKey("SportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+
+                    b.Navigation("Sport");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
