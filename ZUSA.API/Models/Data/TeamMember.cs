@@ -9,10 +9,7 @@
         public string? Gender { get; set; }
         public string? RegNumber { get; set; }
         public string? IdNumber { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.Now;
-        public int SchoolId { get; set; }
-        public int SportId { get; set; }
-        public Sport? Sport { get; set; }
-        public School? School { get; set; }
+        public int SubscriptionId { get; set; }
+        public Subscription? Subscription { get; set; }
     }
 }

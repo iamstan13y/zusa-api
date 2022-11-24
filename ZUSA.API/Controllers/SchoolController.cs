@@ -14,7 +14,7 @@ namespace ZUSA.API.Controllers
         public SchoolController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-        }   
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _unitOfWork.School.GetAllAsync());
@@ -24,7 +24,7 @@ namespace ZUSA.API.Controllers
         {
             var school = await _unitOfWork.School.FindAsync(id);
             if (school == null) return NotFound(school);
-            
+
             return Ok(school);
         }
 
@@ -37,7 +37,7 @@ namespace ZUSA.API.Controllers
             });
 
             if (!result.Success) return BadRequest(result);
-            
+
             _unitOfWork.SaveChanges();
 
             return Ok(result);

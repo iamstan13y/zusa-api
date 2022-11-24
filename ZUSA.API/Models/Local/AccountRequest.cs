@@ -1,6 +1,4 @@
-﻿using ZUSA.API.Enums;
-
-namespace ZUSA.API.Models.Local
+﻿namespace ZUSA.API.Models.Local
 {
     public class AccountRequest
     {

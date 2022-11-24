@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZUSA.API.Models.Local;
 
@@ -11,9 +12,10 @@ using ZUSA.API.Models.Local;
 namespace ZUSA.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124072046_SubscriptionToDb")]
+    partial class SubscriptionToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,6 +160,9 @@ namespace ZUSA.API.Migrations
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -173,12 +178,17 @@ namespace ZUSA.API.Migrations
                     b.Property<string>("RegNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubscriptionId")
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubscriptionId");
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("SportId");
 
                     b.ToTable("TeamMembers");
                 });
@@ -215,13 +225,21 @@ namespace ZUSA.API.Migrations
 
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
                 {
-                    b.HasOne("ZUSA.API.Models.Data.Subscription", "Subscription")
+                    b.HasOne("ZUSA.API.Models.Data.School", "School")
                         .WithMany()
-                        .HasForeignKey("SubscriptionId")
+                        .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Subscription");
+                    b.HasOne("ZUSA.API.Models.Data.Sport", "Sport")
+                        .WithMany()
+                        .HasForeignKey("SportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+
+                    b.Navigation("Sport");
                 });
 #pragma warning restore 612, 618
         }

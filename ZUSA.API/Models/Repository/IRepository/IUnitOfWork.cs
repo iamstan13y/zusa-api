@@ -2,8 +2,9 @@
 {
     public interface IUnitOfWork
     {
-        ISchoolRepository School {get;}
-        ISportRepository Sport {get;}
+        ISchoolRepository School { get; }
+        ISportRepository Sport { get; }
+        ISubscriptionRepository Subscription { get; }
         void SaveChanges();
     }
 }

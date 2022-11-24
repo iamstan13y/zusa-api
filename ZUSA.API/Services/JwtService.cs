@@ -25,7 +25,8 @@ namespace ZUSA.API.Services
                 {
                     new Claim("UserId", account.Id.ToString()),
                     new Claim(ClaimTypes.Email, account.Email!),
-                    new Claim(ClaimTypes.Role, account.Role!.ToString())
+                    new Claim(ClaimTypes.Role, account.Role!.ToString()),
+                    new Claim("SchoolId", account.SchoolId.ToString())
                 }),
 
                 Expires = DateTime.Now.AddHours(8),

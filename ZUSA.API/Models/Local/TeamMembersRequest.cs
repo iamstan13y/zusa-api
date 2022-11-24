@@ -2,8 +2,7 @@
 {
     public class TeamMembersRequest
     {
-        public int SportId { get; set; }
-        public int SchoolId { get; set; }
+        public int SubscriptionId { get; set; }
         public IFormFile? TeamExcelFile { get; set; }
     }
 }
