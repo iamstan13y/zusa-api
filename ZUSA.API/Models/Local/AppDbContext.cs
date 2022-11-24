@@ -15,5 +15,6 @@ namespace ZUSA.API.Models.Local
         public DbSet<School>? Schools { get; set; }
         public DbSet<Sport>? Sports { get; set; }
         public DbSet<TeamMember>? TeamMembers { get; set; }
+        public DbSet<Subscription>? Subscriptions { get; set; }
     }
 }
