@@ -7,5 +7,6 @@ namespace ZUSA.API.Models.Repository.IRepository
     {
         Task<Result<string>> AddBulkAsync(TeamMembersRequest request);
         Task<Result<IEnumerable<TeamMember>>> GetBySchoolIdAsync(int schoolId);
+        Task<Result<IEnumerable<TeamMember>>> GetBySportIdAsync(int sportId);
     }
 }
