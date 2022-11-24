@@ -51,10 +51,10 @@ namespace ZUSA.API.Controllers
         [HttpPut("{subscriptionId}/toggle")]
         public async Task<IActionResult> Put(int subscriptionId)
         {
-            var result = await _unitOfWork.Subscription.UpdateAsync(new Subscription
-            {
+            var result = await _unitOfWork.Subscription.ToggleStatusAsync(subscriptionId);
+            if (!result.Success) return BadRequest(result);
 
-            });
+            return Ok(result);
         }
     }
 }
