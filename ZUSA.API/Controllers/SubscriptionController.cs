@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Models.Repository.IRepository;
 
 namespace ZUSA.API.Controllers
 {
@@ -6,5 +7,14 @@ namespace ZUSA.API.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public SubscriptionController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get() => Ok(await _unitOfWork.Subscription.GetAllAsync());
     }
 }
