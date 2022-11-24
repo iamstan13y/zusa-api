@@ -158,9 +158,6 @@ namespace ZUSA.API.Migrations
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -176,17 +173,12 @@ namespace ZUSA.API.Migrations
                     b.Property<string>("RegNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SportId")
+                    b.Property<int>("SubscriptionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
-
-                    b.HasIndex("SportId");
+                    b.HasIndex("SubscriptionId");
 
                     b.ToTable("TeamMembers");
                 });
@@ -223,21 +215,13 @@ namespace ZUSA.API.Migrations
 
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
                 {
-                    b.HasOne("ZUSA.API.Models.Data.School", "School")
+                    b.HasOne("ZUSA.API.Models.Data.Subscription", "Subscription")
                         .WithMany()
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ZUSA.API.Models.Data.Sport", "Sport")
-                        .WithMany()
-                        .HasForeignKey("SportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("School");
-
-                    b.Navigation("Sport");
+                    b.Navigation("Subscription");
                 });
 #pragma warning restore 612, 618
         }
