@@ -21,5 +21,8 @@ namespace ZUSA.API.Controllers
             var result = await _teamMemberRepository.AddBulkAsync(request);
             return result.Success ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("{schoolId}")]
+        public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _teamMemberRepository.GetBySchoolIdAsync(schoolId));
     }
 }
