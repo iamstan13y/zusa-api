@@ -43,6 +43,8 @@ namespace ZUSA.API.Controllers
                 SchoolId = request.SchoolId
             });
 
+            _unitOfWork.SaveChanges();
+
             if (!result.Success) return BadRequest(result);
 
             return Ok(result);
