@@ -35,5 +35,18 @@ namespace ZUSA.API.Models.Repository
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
+        
+        public async Task<Result<bool>> ToggleStatusAsync(int subscriptionId)
+        {
+            var subscription = await _dbSet.FindAsync(subscriptionId);
+            if (subscription == null) return new Result<bool>(false, "Subscription not found.");
+
+            if ((DateTime.Now - subscription.DateCreated).Hours > 72)
+                return new Result<bool>(false, "Your permissible time to edit this subscription has expired");
+            
+                subscription.IsActive = !subscription.IsActive;
+
+            return new Result<bool>(true, "Subscription updated successfully.");
+        }
     }
 }
