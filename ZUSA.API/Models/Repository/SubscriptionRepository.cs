@@ -13,9 +13,15 @@ namespace ZUSA.API.Models.Repository
             _context = context;
         }
 
-        public Task<Result<IEnumerable<Subscription>>> GetBySchoolIdAsync(int schoolId)
+        public async Task<Result<IEnumerable<Subscription>>> GetBySchoolIdAsync(int schoolId)
         {
-            throw new NotImplementedException();
+            var subscriptions = await _context.Subscriptions!
+                .Include(s => s.School)
+                .Include(s => s.Sport)
+                .Where(s => s.SchoolId == schoolId)
+                .ToListAsync();
+            
+            return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
         public async Task<Result<IEnumerable<Subscription>>> GetBySportIdAsync(int sportId)
