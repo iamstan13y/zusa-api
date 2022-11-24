@@ -46,6 +46,15 @@ namespace ZUSA.API.Controllers
             if (!result.Success) return BadRequest(result);
 
             return Ok(result);
-        } 
+        }
+
+        [HttpPut("{subscriptionId}/toggle")]
+        public async Task<IActionResult> Put(int subscriptionId)
+        {
+            var result = await _unitOfWork.Subscription.UpdateAsync(new Subscription
+            {
+
+            });
+        }
     }
 }
