@@ -16,5 +16,14 @@ namespace ZUSA.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _unitOfWork.Subscription.GetAllAsync());
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var subscription = await _unitOfWork.Subscription.FindAsync(id);
+            if (subscription == null) return NotFound();
+            
+            return Ok(subscription);
+        }
     }
 }
