@@ -25,5 +25,8 @@ namespace ZUSA.API.Controllers
             
             return Ok(subscription);
         }
+
+        [HttpGet("sport/{sportId}")]
+        public async Task<IActionResult> GetBySport(int sportId) => Ok(await _unitOfWork.Subscription.GetBySportIdAsync(sportId));
     }
 }
