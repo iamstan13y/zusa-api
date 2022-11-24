@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
@@ -10,6 +11,16 @@ namespace ZUSA.API.Models.Repository
         public SubscriptionRepository(AppDbContext context) : base(context)
         {
 
+        }
+
+        public async new Task<Result<IEnumerable<Subscription>>> GetAllAsync()
+        {
+            var subscriptions = await _dbSet!
+               .Include(s => s.School)
+               .Include(s => s.Sport)
+               .ToListAsync();
+
+            return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
         public async new Task<Result<Subscription>> AddAsync(Subscription sub)
