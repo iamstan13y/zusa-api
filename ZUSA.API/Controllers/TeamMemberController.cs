@@ -22,10 +22,10 @@ namespace ZUSA.API.Controllers
             return result.Success ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("{schoolId}")]
+        [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _teamMemberRepository.GetBySchoolIdAsync(schoolId)); 
 
-        [HttpGet("{sportId}")]
+        [HttpGet("sport/{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _teamMemberRepository.GetBySportIdAsync(sportId));
 
         [HttpGet("{schoolId}/{sportId}")]
