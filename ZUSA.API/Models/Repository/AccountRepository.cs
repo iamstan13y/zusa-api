@@ -70,7 +70,7 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<IEnumerable<Account>>> GetAllAsync()
         {
-            var users = await _context.ZAccounts!.Include(x => x.Role).ToListAsync();
+            var users = await _context.ZAccounts!.ToListAsync();
 
             return new Result<IEnumerable<Account>>(users);
         }
@@ -228,7 +228,7 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
         {
-            var users = await _context.ZAccounts!.Include(x => x.Role).ToListAsync();
+            var users = await _context.ZAccounts!.ToListAsync();
 
             return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
         }
