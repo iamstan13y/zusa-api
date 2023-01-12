@@ -6,11 +6,18 @@ using ZUSA.API.Services;
 
 namespace ZUSA.API.Models.Repository
 {
-    public class TeamMemberRepository : ITeamMemberRepository
+    public class TeamMemberRepository : Repository<TeamMember>, ITeamMemberRepository
     {
         private readonly AppDbContext _context;
         private readonly IExcelService _excelService;
-        public TeamMemberRepository(AppDbContext context, IExcelService excelService)
+
+        public TeamMemberRepository(AppDbContext context) : base(context)
+        {
+            _context = context;
+            _excelService = new ExcelService();
+        }
+
+        public TeamMemberRepository(AppDbContext context, IExcelService excelService) : base(context)
         {
             _context = context;
             _excelService = excelService;
