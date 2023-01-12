@@ -3,7 +3,7 @@ using ZUSA.API.Models.Local;
 
 namespace ZUSA.API.Models.Repository.IRepository
 {
-    public interface ITeamMemberRepository
+    public interface ITeamMemberRepository : IRepository<TeamMember>
     {
         Task<Result<string>> AddBulkAsync(TeamMembersRequest request);
         Task<Result<IEnumerable<TeamMember>>> GetBySubscriptionIdAsync(int subscriptionId);
