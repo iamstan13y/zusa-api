@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
 
@@ -9,13 +10,35 @@ namespace ZUSA.API.Controllers
     public class TeamMemberController : ControllerBase
     {
         private readonly ITeamMemberRepository _teamMemberRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public TeamMemberController(ITeamMemberRepository teamMemberRepository)
         {
             _teamMemberRepository = teamMemberRepository;
         }
 
-        [HttpPost("add-bulk")]
+        [HttpPost]
+        public async Task<IActionResult> Post(TeamMemberRequest request)
+        {
+            var result = await _unitOfWork.TeamMember.AddAsync(new TeamMember
+            {
+                DOB = request.DOB,
+                FirstName = request.FirstName,
+                Gender = request.Gender,
+                IdNumber = request.IdNumber,
+                LastName = request.LastName,
+                RegNumber = request.RegNumber,
+                SubscriptionId = request.SubscriptionId
+            });
+
+            _unitOfWork.SaveChanges();
+
+            if (!result.Success) return BadRequest();
+
+            return Ok(result);
+        }
+
+        [HttpPost("bulk")]
         public async Task<IActionResult> AddBulkAsync([FromForm] TeamMembersRequest request)
         {
             var result = await _teamMemberRepository.AddBulkAsync(request);
