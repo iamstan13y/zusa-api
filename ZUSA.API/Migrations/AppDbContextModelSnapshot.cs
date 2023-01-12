@@ -61,7 +61,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("ZAccounts");
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.GeneratedCode", b =>
