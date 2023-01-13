@@ -4,5 +4,6 @@
     {
         public string? Name { get; set; }
         public int TeamMemberLimit { get; set; }
+        public DateTime Deadline { get; set; }
     }
 }
