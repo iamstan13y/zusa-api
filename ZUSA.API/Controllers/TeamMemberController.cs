@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
+using ZUSA.API.Models.Repository;
 using ZUSA.API.Models.Repository.IRepository;
 
 namespace ZUSA.API.Controllers
@@ -12,9 +13,10 @@ namespace ZUSA.API.Controllers
         private readonly ITeamMemberRepository _teamMemberRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TeamMemberController(ITeamMemberRepository teamMemberRepository)
+        public TeamMemberController(ITeamMemberRepository teamMemberRepository, IUnitOfWork unitOfWork)
         {
             _teamMemberRepository = teamMemberRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
