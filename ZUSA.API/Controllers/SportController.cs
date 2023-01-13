@@ -29,11 +29,12 @@ namespace ZUSA.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SportRequest request)
+        public async Task<IActionResult> Post(SportRequest request)
         {
             var result = await _unitOfWork.Sport.AddAsync(new Sport
             {
-                Name = request.Name
+                Name = request.Name,
+                TeamMemberLimit = request.TeamMemberLimit
             });
 
             if (!result.Success) return BadRequest(result);
