@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
