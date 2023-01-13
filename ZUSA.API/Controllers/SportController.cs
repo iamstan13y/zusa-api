@@ -34,7 +34,8 @@ namespace ZUSA.API.Controllers
             var result = await _unitOfWork.Sport.AddAsync(new Sport
             {
                 Name = request.Name,
-                TeamMemberLimit = request.TeamMemberLimit
+                TeamMemberLimit = request.TeamMemberLimit,
+                Deadline = request.Deadline
             });
 
             if (!result.Success) return BadRequest(result);
