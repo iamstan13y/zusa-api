@@ -57,7 +57,7 @@ namespace ZUSA.API.Controllers
             if (!result.Success) return BadRequest(result);
 
             _unitOfWork.SaveChanges();
-            
+
             return Ok(result);
         }
     }
