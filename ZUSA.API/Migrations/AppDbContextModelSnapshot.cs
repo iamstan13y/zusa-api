@@ -113,6 +113,9 @@ namespace ZUSA.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TeamMemberLimit")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Sports");
