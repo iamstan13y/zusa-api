@@ -24,6 +24,7 @@ namespace ZUSA.API.Controllers
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Password = request.Password,
                 Email = request.Email,
                 Role = Role.USER,
                 PhoneNumber = request.PhoneNumber,
