@@ -61,7 +61,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.GeneratedCode", b =>
@@ -83,7 +83,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneratedCodes");
+                    b.ToTable("GeneratedCodes", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.School", b =>
@@ -99,7 +99,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Schools");
+                    b.ToTable("Schools", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Sport", b =>
@@ -121,7 +121,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sports");
+                    b.ToTable("Sports", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Subscription", b =>
@@ -150,7 +150,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SportId");
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
@@ -186,7 +186,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SubscriptionId");
 
-                    b.ToTable("TeamMembers");
+                    b.ToTable("TeamMembers", (string)null);
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Account", b =>
