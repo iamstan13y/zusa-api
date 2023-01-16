@@ -6,11 +6,18 @@ using ZUSA.API.Services;
 
 namespace ZUSA.API.Models.Repository
 {
-    public class TeamMemberRepository : ITeamMemberRepository
+    public class TeamMemberRepository : Repository<TeamMember>, ITeamMemberRepository
     {
         private readonly AppDbContext _context;
         private readonly IExcelService _excelService;
-        public TeamMemberRepository(AppDbContext context, IExcelService excelService)
+
+        public TeamMemberRepository(AppDbContext context) : base(context)
+        {
+            _context = context;
+            _excelService = new ExcelService();
+        }
+
+        public TeamMemberRepository(AppDbContext context, IExcelService excelService) : base(context)
         {
             _context = context;
             _excelService = excelService;
@@ -29,6 +36,23 @@ namespace ZUSA.API.Models.Repository
             await _context.SaveChangesAsync();
 
             return new Result<string>("Team members added successfully");
+        }
+
+        public async new Task<Result<TeamMember>> AddAsync(TeamMember teamMember)
+        {
+            var teamMembers = await _context.Subscriptions!
+                .Where(x => x.Id == teamMember.SubscriptionId)
+                .Include(x => x.Sport)
+                .ToListAsync();
+
+            if (teamMembers.Any())
+                if (teamMembers.Count >= teamMembers[0].Sport!.TeamMemberLimit)
+                    return new Result<TeamMember>(false, "You've reached the limit for maximum team members.");
+
+            _dbSet.Add(teamMember);
+            await _context.SaveChangesAsync();
+
+            return new Result<TeamMember>(teamMember);
         }
 
         public async Task<Result<IEnumerable<TeamMember>>> GetBySchoolAndSportIdAsync(int schoolId, int sportId)

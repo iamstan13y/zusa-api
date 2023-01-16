@@ -35,14 +35,14 @@ namespace ZUSA.API.Models.Repository
 
                 account.Password = _passwordService.HashPassword(account.Password!);
 
-                await _context.ZAccounts!.AddAsync(account);
+                await _context.Accounts!.AddAsync(account);
 
                 var code = await _codeGeneratorService.GenerateVerificationCode();
 
-                await _context.GeneratedCodes!.AddAsync(new GeneratedCode
+                await _context.OtpCodes!.AddAsync(new OtpCode
                 {
                     Code = code,
-                    UserEmail = account.Email,
+                    Email = account.Email,
                     DateCreated = DateTime.Now
                 });
 
@@ -70,14 +70,14 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<IEnumerable<Account>>> GetAllAsync()
         {
-            var users = await _context.ZAccounts!.ToListAsync();
+            var users = await _context.Accounts!.ToListAsync();
 
             return new Result<IEnumerable<Account>>(users);
         }
 
         public async Task<Result<Account>> GetByIdAsync(int id)
         {
-            var account = await _context.ZAccounts!.SingleOrDefaultAsync(x => x.Id == id);
+            var account = await _context.Accounts!.SingleOrDefaultAsync(x => x.Id == id);
             if (account == null)
                 return new Result<Account>(false, "User not found");
 
@@ -91,15 +91,15 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<Account>> VerifyOtpAsync(VerifyOtpRequest request)
         {
-            var account = await _context.ZAccounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
+            var account = await _context.Accounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
             if (account == null) return new Result<Account>(false, "User account not found!");
 
-            var code = await _context.GeneratedCodes!.Where(x => x.UserEmail == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
+            var code = await _context.OtpCodes!.Where(x => x.Email == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
             if (code == null) return new Result<Account>(false, "Invalid OTP code provided!");
 
             account.IsActive = true;
 
-            _context.ZAccounts!.Update(account);
+            _context.Accounts!.Update(account);
             await _context.SaveChangesAsync();
 
             return new Result<Account>(account, "Account registration complete!");
@@ -107,7 +107,7 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<Account>> LoginAsync(LoginRequest login)
         {
-            var account = await _context.ZAccounts!
+            var account = await _context.Accounts!
                 .Where(x => x.Email == login.Email)
                 .FirstOrDefaultAsync();
 
@@ -124,7 +124,7 @@ namespace ZUSA.API.Models.Repository
 
         private bool IsUniqueUser(string email)
         {
-            var user = _context.ZAccounts!.SingleOrDefault(x => x.Email == email);
+            var user = _context.Accounts!.SingleOrDefault(x => x.Email == email);
 
             if (user == null) return true;
             return false;
@@ -140,7 +140,7 @@ namespace ZUSA.API.Models.Repository
 
             account.Data.Password = _passwordService.HashPassword(changePassword.NewPassword!);
 
-            _context.ZAccounts!.Update(account.Data);
+            _context.Accounts!.Update(account.Data);
             await _context.SaveChangesAsync();
 
             return new Result<Account>(account.Data);
@@ -228,7 +228,7 @@ namespace ZUSA.API.Models.Repository
 
         public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
         {
-            var users = await _context.ZAccounts!.ToListAsync();
+            var users = await _context.Accounts!.ToListAsync();
 
             return new Result<Pageable<Account>>(new Pageable<Account>(users, pagination.Page, pagination.Size));
         }

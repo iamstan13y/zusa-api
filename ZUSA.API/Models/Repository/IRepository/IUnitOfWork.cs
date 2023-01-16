@@ -5,6 +5,7 @@
         ISchoolRepository School { get; }
         ISportRepository Sport { get; }
         ISubscriptionRepository Subscription { get; }
+        ITeamMemberRepository TeamMember { get; }
         void SaveChanges();
     }
 }

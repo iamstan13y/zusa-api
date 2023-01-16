@@ -2,6 +2,7 @@
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
+using ZUSA.API.Utility;
 
 namespace ZUSA.API.Controllers
 {
@@ -19,6 +20,10 @@ namespace ZUSA.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _unitOfWork.Subscription.GetAllAsync());
 
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetAllPagedAsync(pagination));
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -31,9 +36,15 @@ namespace ZUSA.API.Controllers
         [HttpGet("sport/{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _unitOfWork.Subscription.GetBySportIdAsync(sportId));
 
+        [HttpGet("sport/{sportId}/paged")]
+        public async Task<IActionResult> GetBySportPaged(int sportId, [FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetPagedBySportIdAsync(sportId, pagination));
+
         [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _unitOfWork.Subscription.GetBySchoolIdAsync(schoolId));
 
+
+        [HttpGet("school/{schoolId}/paged")]
+        public async Task<IActionResult> GetBySchoolPaged(int schoolId, [FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetPagedBySchoolIdAsync(schoolId, pagination));
         [HttpPost]
         public async Task<IActionResult> Post(SubscriptionRequest request)
         {
@@ -57,7 +68,7 @@ namespace ZUSA.API.Controllers
             if (!result.Success) return BadRequest(result);
 
             _unitOfWork.SaveChanges();
-            
+
             return Ok(result);
         }
     }

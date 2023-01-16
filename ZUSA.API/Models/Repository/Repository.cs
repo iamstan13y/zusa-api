@@ -36,9 +36,11 @@ namespace ZUSA.API.Models.Repository
         public async Task<Result<bool>> DeleteAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            if (entity == null) return new Result<bool>(false);
+            if (entity == null) return new Result<bool>(false, "Not found.");
 
             _dbSet.Remove(entity);
+            _context.SaveChanges();
+
             return new Result<bool>(true);
         }
 

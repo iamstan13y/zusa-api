@@ -42,5 +42,27 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _unitOfWork.School.DeleteAsync(id);
+            if (!result.Success) return NotFound(result);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateSchoolRequest request)
+        {
+            var result = await _unitOfWork.School.UpdateAsync(new School
+            {
+                Id = request.Id,
+                Name = request.Name
+            });
+
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZUSA.API.Models.Local;
 
@@ -11,9 +12,10 @@ using ZUSA.API.Models.Local;
 namespace ZUSA.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230112203548_AccountsRefinedToDb")]
+    partial class AccountsRefinedToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +66,7 @@ namespace ZUSA.API.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("ZUSA.API.Models.Data.OtpCode", b =>
+            modelBuilder.Entity("ZUSA.API.Models.Data.GeneratedCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,12 +80,12 @@ namespace ZUSA.API.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("UserEmail")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("OtpCodes");
+                    b.ToTable("GeneratedCodes");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.School", b =>
@@ -110,14 +112,8 @@ namespace ZUSA.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TeamMemberLimit")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

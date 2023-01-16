@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
 
@@ -9,17 +10,59 @@ namespace ZUSA.API.Controllers
     public class TeamMemberController : ControllerBase
     {
         private readonly ITeamMemberRepository _teamMemberRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TeamMemberController(ITeamMemberRepository teamMemberRepository)
+        public TeamMemberController(ITeamMemberRepository teamMemberRepository, IUnitOfWork unitOfWork)
         {
             _teamMemberRepository = teamMemberRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add-bulk")]
+        [HttpPost]
+        public async Task<IActionResult> Post(TeamMemberRequest request)
+        {
+            var result = await _unitOfWork.TeamMember.AddAsync(new TeamMember
+            {
+                DOB = request.DOB,
+                FirstName = request.FirstName,
+                Gender = request.Gender,
+                IdNumber = request.IdNumber,
+                LastName = request.LastName,
+                RegNumber = request.RegNumber,
+                SubscriptionId = request.SubscriptionId
+            });
+
+            _unitOfWork.SaveChanges();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("bulk")]
         public async Task<IActionResult> AddBulkAsync([FromForm] TeamMembersRequest request)
         {
             var result = await _teamMemberRepository.AddBulkAsync(request);
             return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateMemberRequest request)
+        {
+            var result = await _unitOfWork.TeamMember.UpdateAsync(new TeamMember
+            {
+                Id = request.Id,
+                DOB = request.DOB,
+                FirstName = request.FirstName,
+                Gender = request.Gender,
+                IdNumber = request.IdNumber,
+                LastName = request.LastName,
+                RegNumber = request.RegNumber,
+                SubscriptionId = request.SubscriptionId
+            });
+
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpGet("school/{schoolId}")]
