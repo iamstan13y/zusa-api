@@ -6,4 +6,9 @@
         public int TeamMemberLimit { get; set; }
         public DateTime Deadline { get; set; }
     }
+
+    public class UpdateSportRequest : SportRequest
+    {
+        public int Id { get; set; }
+    }
 }
