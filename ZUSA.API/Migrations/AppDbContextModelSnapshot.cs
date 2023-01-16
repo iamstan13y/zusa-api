@@ -61,10 +61,10 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("ZUSA.API.Models.Data.GeneratedCode", b =>
+            modelBuilder.Entity("ZUSA.API.Models.Data.OtpCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,12 +78,12 @@ namespace ZUSA.API.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserEmail")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneratedCodes", (string)null);
+                    b.ToTable("OtpCodes");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.School", b =>
@@ -99,7 +99,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Schools", (string)null);
+                    b.ToTable("Schools");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Sport", b =>
@@ -121,7 +121,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sports", (string)null);
+                    b.ToTable("Sports");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Subscription", b =>
@@ -150,7 +150,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SportId");
 
-                    b.ToTable("Subscriptions", (string)null);
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.TeamMember", b =>
@@ -186,7 +186,7 @@ namespace ZUSA.API.Migrations
 
                     b.HasIndex("SubscriptionId");
 
-                    b.ToTable("TeamMembers", (string)null);
+                    b.ToTable("TeamMembers");
                 });
 
             modelBuilder.Entity("ZUSA.API.Models.Data.Account", b =>
