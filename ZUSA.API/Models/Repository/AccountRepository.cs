@@ -39,7 +39,7 @@ namespace ZUSA.API.Models.Repository
 
                 var code = await _codeGeneratorService.GenerateVerificationCode();
 
-                await _context.GeneratedCodes!.AddAsync(new OtpCode
+                await _context.OtpCodes!.AddAsync(new OtpCode
                 {
                     Code = code,
                     Email = account.Email,
@@ -94,7 +94,7 @@ namespace ZUSA.API.Models.Repository
             var account = await _context.Accounts!.Where(x => x.Email == request.Email).FirstOrDefaultAsync();
             if (account == null) return new Result<Account>(false, "User account not found!");
 
-            var code = await _context.GeneratedCodes!.Where(x => x.Email == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
+            var code = await _context.OtpCodes!.Where(x => x.Email == request.Email && x.Code == request.Otp).FirstOrDefaultAsync();
             if (code == null) return new Result<Account>(false, "Invalid OTP code provided!");
 
             account.IsActive = true;
