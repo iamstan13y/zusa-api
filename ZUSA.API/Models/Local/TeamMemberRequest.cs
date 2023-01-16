@@ -10,4 +10,9 @@
         public string? IdNumber { get; set; }
         public int SubscriptionId { get; set; }
     }
+
+    public class UpdateMemberRequest : TeamMemberRequest
+    {
+        public int Id { get; set; }
+    }
 }
