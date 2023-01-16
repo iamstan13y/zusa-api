@@ -48,5 +48,14 @@ namespace ZUSA.API.Controllers
 
         [HttpGet("paged")]
         public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Sport.GetAllPagedAsync(pagination));
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _unitOfWork.Sport.DeleteAsync(id);
+            if (!result.Success) return NotFound(result);
+
+            return Ok(result);
+        }
     }
 }
