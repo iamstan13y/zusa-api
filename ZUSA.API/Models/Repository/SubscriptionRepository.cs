@@ -2,6 +2,7 @@
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
+using ZUSA.API.Utility;
 
 namespace ZUSA.API.Models.Repository
 {
@@ -20,6 +21,14 @@ namespace ZUSA.API.Models.Repository
                .ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
+        }
+
+        public async new Task<Result<Pageable<Subscription>>> GetAllPagedAsync(Pagination pagination)
+        {
+            var subscriptions = await _dbSet.ToListAsync();
+            var pagedSubscriptions = new Pageable<Subscription>(subscriptions, pagination.Page, pagination.Size);
+
+            return new Result<Pageable<Subscription>>(pagedSubscriptions);
         }
 
         public async new Task<Result<Subscription>> AddAsync(Subscription sub)
