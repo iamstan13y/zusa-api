@@ -25,7 +25,11 @@ namespace ZUSA.API.Models.Repository
 
         public async new Task<Result<Pageable<Subscription>>> GetAllPagedAsync(Pagination pagination)
         {
-            var subscriptions = await _dbSet.ToListAsync();
+            var subscriptions = await _dbSet
+                .Include(s => s.School)
+                .Include(s => s.Sport)
+                .ToListAsync();
+
             var pagedSubscriptions = new Pageable<Subscription>(subscriptions, pagination.Page, pagination.Size);
 
             return new Result<Pageable<Subscription>>(pagedSubscriptions);
@@ -75,6 +79,32 @@ namespace ZUSA.API.Models.Repository
             subscription.IsActive = !subscription.IsActive;
 
             return new Result<bool>(true, "Subscription updated successfully.");
+        }
+
+        public async Task<Result<Pageable<Subscription>>> GetPagedBySportIdAsync(int sportId, Pagination pagination)
+        {
+            var subscriptions = await _dbSet
+                .Where(s => s.SportId == sportId)
+                .Include(s => s.School)
+                .Include(s => s.Sport)
+                .ToListAsync();
+
+            var pagedSubscriptions = new Pageable<Subscription>(subscriptions, pagination.Page, pagination.Size);
+
+            return new Result<Pageable<Subscription>>(pagedSubscriptions);
+        }
+
+        public async Task<Result<Pageable<Subscription>>> GetPagedBySchoolIdAsync(int schoolId, Pagination pagination)
+        {
+            var subscriptions = await _dbSet
+                .Where(s => s.SchoolId == schoolId)
+                .Include(s => s.School)
+                .Include(s => s.Sport)
+                .ToListAsync();
+
+            var pagedSubscriptions = new Pageable<Subscription>(subscriptions, pagination.Page, pagination.Size);
+
+            return new Result<Pageable<Subscription>>(pagedSubscriptions);
         }
     }
 }
