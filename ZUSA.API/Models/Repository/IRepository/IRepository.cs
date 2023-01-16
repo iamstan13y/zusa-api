@@ -12,6 +12,7 @@ namespace ZUSA.API.Models.Repository.IRepository
         Task<Result<Pageable<T>>> GetAllPagedAsync(Pagination pagination);
         Task<Result<T>> AddAsync(T entity);
         Task<Result<bool>> DeleteAsync(T entity);
+        Task<Result<bool>> DeleteAsync(int id);
         Task<Result<T>> UpdateAsync(T entity);
     }
 }
