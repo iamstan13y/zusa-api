@@ -32,6 +32,9 @@ namespace ZUSA.API.Controllers
         [HttpGet("sport/{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _unitOfWork.Subscription.GetBySportIdAsync(sportId));
 
+        [HttpGet("sport/{sportId}/paged")]
+        public async Task<IActionResult> GetBySportPaged(int sportId, [FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetPagedBySportIdAsync(sportId, pagination));
+
         [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _unitOfWork.Subscription.GetBySchoolIdAsync(schoolId));
 
@@ -63,6 +66,6 @@ namespace ZUSA.API.Controllers
         }
 
         [HttpGet("paged")]
-        public async Task<IActionResult> Get(Pagination pagination) => Ok(await _unitOfWork.Subscription.GetAllPagedAsync(pagination));
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetAllPagedAsync(pagination));
     }
 }
