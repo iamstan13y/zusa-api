@@ -20,6 +20,10 @@ namespace ZUSA.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _unitOfWork.Subscription.GetAllAsync());
 
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetAllPagedAsync(pagination));
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -67,8 +71,5 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
-
-        [HttpGet("paged")]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetAllPagedAsync(pagination));
     }
 }
