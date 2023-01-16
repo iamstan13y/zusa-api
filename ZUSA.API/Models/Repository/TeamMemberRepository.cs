@@ -38,6 +38,23 @@ namespace ZUSA.API.Models.Repository
             return new Result<string>("Team members added successfully");
         }
 
+        public async new Task<Result<TeamMember>> AddAsync(TeamMember teamMember)
+        {
+            var teamMembers = await _context.Subscriptions!
+                .Where(x => x.Id == teamMember.SubscriptionId)
+                .Include(x => x.Sport)
+                .ToListAsync();
+
+            if (teamMembers.Any())
+                if (teamMembers.Count >= teamMembers[0].Sport!.TeamMemberLimit)
+                    return new Result<TeamMember>(false, "You've reached the limit for maximum team members.");
+
+            _dbSet.Add(teamMember);
+            await _context.SaveChangesAsync();
+
+            return new Result<TeamMember>(teamMember);
+        }
+
         public async Task<Result<IEnumerable<TeamMember>>> GetBySchoolAndSportIdAsync(int schoolId, int sportId)
         {
             var teamMembers = await _context.TeamMembers!
