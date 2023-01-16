@@ -8,9 +8,10 @@ namespace ZUSA.API.Models.Repository
 {
     public class SubscriptionRepository : Repository<Subscription>, ISubscriptionRepository
     {
+        private readonly AppDbContext _context;
         public SubscriptionRepository(AppDbContext context) : base(context)
         {
-
+            _context = context;
         }
 
         public async new Task<Result<IEnumerable<Subscription>>> GetAllAsync()
@@ -51,6 +52,11 @@ namespace ZUSA.API.Models.Repository
         {
             var subscription = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == sub.SchoolId).FirstOrDefaultAsync();
             if (subscription != null) return new Result<Subscription>(false, "Sorry! You've already subscribed for this sport.");
+
+            var sport = await _context.Sports!.FindAsync(sub.SportId);
+            if (sport == null) return new Result<Subscription>(false, "Sport not found.");
+
+            if (DateTime.Now.Date > sport.Deadline) return new Result<Subscription>(false, "Registration for this sport has closed.");
 
             await _dbSet.AddAsync(sub);
 
