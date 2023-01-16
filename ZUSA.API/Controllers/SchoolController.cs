@@ -51,5 +51,18 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateSchoolRequest request)
+        {
+            var result = await _unitOfWork.School.UpdateAsync(new School
+            {
+                Id = request.Id,
+                Name = request.Name
+            });
+
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }
