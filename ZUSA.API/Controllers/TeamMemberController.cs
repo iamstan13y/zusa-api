@@ -46,6 +46,25 @@ namespace ZUSA.API.Controllers
             return result.Success ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateMemberRequest request)
+        {
+            var result = await _unitOfWork.TeamMember.UpdateAsync(new TeamMember
+            {
+                Id = request.Id,
+                DOB = request.DOB,
+                FirstName = request.FirstName,
+                Gender = request.Gender,
+                IdNumber = request.IdNumber,
+                LastName = request.LastName,
+                RegNumber = request.RegNumber,
+                SubscriptionId = request.SubscriptionId
+            });
+
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
+        }
+
         [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _teamMemberRepository.GetBySchoolIdAsync(schoolId));
 
