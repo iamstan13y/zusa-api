@@ -35,6 +35,18 @@ namespace ZUSA.API.Models.Repository
             return new Result<Pageable<Subscription>>(pagedSubscriptions);
         }
 
+        public async new Task<Result<Subscription>> FindAsync(int id)
+        {
+            var subscription = await _dbSet
+                .Where(x => x.Id == id)
+                .Include(s => s.School)
+                .Include(s => s.Sport)
+                .FirstOrDefaultAsync();
+            if (subscription == null) return new Result<Subscription>(false, "Subscription not found.");
+
+            return new Result<Subscription>(subscription);
+        }
+
         public async new Task<Result<Subscription>> AddAsync(Subscription sub)
         {
             var subscription = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == sub.SchoolId).FirstOrDefaultAsync();
