@@ -2,6 +2,7 @@
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
+using ZUSA.API.Utility;
 
 namespace ZUSA.API.Controllers
 {
@@ -44,5 +45,8 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination) => Ok(await _unitOfWork.Sport.GetAllPagedAsync(pagination));
     }
 }
