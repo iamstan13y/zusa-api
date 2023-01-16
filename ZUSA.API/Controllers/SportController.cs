@@ -57,5 +57,20 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateSportRequest request)
+        {
+            var result = await _unitOfWork.Sport.UpdateAsync(new Sport
+            {
+                Id = request.Id,
+                Name = request.Name,
+                TeamMemberLimit = request.TeamMemberLimit,
+                Deadline = request.Deadline
+            });
+
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }
