@@ -94,5 +94,8 @@ namespace ZUSA.API.Controllers
 
         [HttpGet("subscription/{subscriptionId}")]
         public async Task<IActionResult> GetBySubscription(int subscriptionId) => Ok(await _teamMemberRepository.GetBySubscriptionIdAsync(subscriptionId));
+
+        [HttpGet("subscription/{subscriptionId}/excel")]
+        public async Task<IActionResult> GetExcelBySubscription(int subscriptionId) => Ok(await _teamMemberRepository.GetExcelBySubscriptionIdAsync(subscriptionId));
     }
 }
