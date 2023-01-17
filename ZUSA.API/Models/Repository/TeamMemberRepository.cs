@@ -128,9 +128,20 @@ namespace ZUSA.API.Models.Repository
             return new Result<string>(excelFile);
         }
 
-        public Task<Result<string>> GetExcelBySchoolIdAsync(int schoolId)
+        public async Task<Result<string>> GetExcelBySchoolIdAsync(int schoolId)
         {
-            throw new NotImplementedException();
+            var teamMembers = await _dbSet
+               .Where(x => x.Subscription!.SchoolId == schoolId)
+               .Include(x => x.Subscription)
+               .Include(x => x.Subscription!.School)
+               .Include(x => x.Subscription!.Sport)
+               .ToListAsync();
+
+            if (!teamMembers.Any()) return new Result<string>(false, "No team members found.");
+
+            var excelFile = await _excelService.GenerateExcelAsync(teamMembers.ToExcelRequest());
+
+            return new Result<string>(excelFile);
         }
 
         public Task<Result<string>> GetExcelBySportIdAsync(int sportId)
