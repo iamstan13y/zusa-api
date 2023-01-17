@@ -101,5 +101,19 @@ namespace ZUSA.API.Models.Repository
 
             return new Result<IEnumerable<TeamMember>>(teamMembers);
         }
+
+        public async Task<Result<TeamMember>> GetByIdAsync(int id)
+        {
+            var subscription = await _dbSet
+                .Where(x => x.Id == id)
+                .Include(x => x.Subscription)
+                .Include(x => x.Subscription!.School)
+                .Include(x => x.Subscription!.Sport)
+                .FirstOrDefaultAsync();
+
+            if (subscription == null) return new Result<TeamMember>(false, "Team member not found.");
+
+            return new Result<TeamMember>(subscription);
+        }
     }
 }

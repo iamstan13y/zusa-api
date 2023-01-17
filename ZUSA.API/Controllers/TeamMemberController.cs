@@ -39,6 +39,24 @@ namespace ZUSA.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _unitOfWork.TeamMember.GetByIdAsync(id);
+            if (!result.Success) return NotFound(result);
+
+            return Ok(result);
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _unitOfWork.TeamMember.DeleteAsync(id);
+            if (!result.Success) return NotFound(result);
+
+            return Ok(result);
+        }
+
         [HttpPost("bulk")]
         public async Task<IActionResult> AddBulkAsync([FromForm] TeamMembersRequest request)
         {
