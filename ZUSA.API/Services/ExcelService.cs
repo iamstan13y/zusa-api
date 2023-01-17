@@ -48,8 +48,8 @@ namespace ZUSA.API.Services
             using var workbook = new XLWorkbook();
 
             var worksheet = workbook.Worksheets.Add("Sports Register");
-            worksheet.Name = "Sports Register";
-            worksheet.Cell(1, 1).Value = data[0].SportName?.ToString();
+            worksheet.Name = "Sports-Register";
+            worksheet.Cell(1, 1).Value = worksheet.Name;
             worksheet.Row(1).Merge();
             worksheet.Row(1).Style.Font.SetBold();
             worksheet.Row(1).Style.Font.SetFontSize(20);
