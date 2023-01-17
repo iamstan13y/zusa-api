@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ZUSA.API.Mappers;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
@@ -10,12 +12,6 @@ namespace ZUSA.API.Models.Repository
     {
         private readonly AppDbContext _context;
         private readonly IExcelService _excelService;
-
-        public TeamMemberRepository(AppDbContext context) : base(context)
-        {
-            _context = context;
-            _excelService = new ExcelService();
-        }
 
         public TeamMemberRepository(AppDbContext context, IExcelService excelService) : base(context)
         {
@@ -114,6 +110,37 @@ namespace ZUSA.API.Models.Repository
             if (subscription == null) return new Result<TeamMember>(false, "Team member not found.");
 
             return new Result<TeamMember>(subscription);
+        }
+
+        public async Task<Result<string>> GetExcelBySubscriptionIdAsync(int subscriptionId)
+        {
+            var teamMembers = await _dbSet
+               .Where(x => x.SubscriptionId == subscriptionId)
+               .Include(x => x.Subscription)
+               .Include(x => x.Subscription!.School)
+               .Include(x => x.Subscription!.Sport)
+               .ToListAsync();
+
+            if (!teamMembers.Any()) return new Result<string>(false, "No team members found.");
+
+            var excelFile = await _excelService.GenerateExcelAsync(teamMembers.ToExcelRequest());
+
+            return new Result<string>(excelFile);
+        }
+
+        public Task<Result<string>> GetExcelBySchoolIdAsync(int schoolId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<string>> GetExcelBySportIdAsync(int sportId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<string>> GetExcelBySchoolAndSportIdAsync(int schoolId, int sportId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
