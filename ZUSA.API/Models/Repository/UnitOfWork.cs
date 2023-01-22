@@ -7,7 +7,7 @@ namespace ZUSA.API.Models.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        
+
         public ISchoolRepository School { get; private set; }
         public ISportRepository Sport { get; private set; }
         public ISubscriptionRepository Subscription { get; private set; }
