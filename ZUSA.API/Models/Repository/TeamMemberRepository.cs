@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ZUSA.API.Mappers;
 using ZUSA.API.Models.Data;
 using ZUSA.API.Models.Local;
