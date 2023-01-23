@@ -47,7 +47,7 @@ namespace ZUSA.API.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -86,13 +86,25 @@ namespace ZUSA.API.Controllers
         [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _teamMemberRepository.GetBySchoolIdAsync(schoolId));
 
+        [HttpGet("school/{schoolId}/excel")]
+        public async Task<IActionResult> GetExcelBySchool(int schoolId) => Ok(await _teamMemberRepository.GetExcelBySchoolIdAsync(schoolId));
+
         [HttpGet("sport/{sportId}")]
         public async Task<IActionResult> GetBySport(int sportId) => Ok(await _teamMemberRepository.GetBySportIdAsync(sportId));
+
+        [HttpGet("sport/{sportId}/excel")]
+        public async Task<IActionResult> GetExcelBySport(int sportId) => Ok(await _teamMemberRepository.GetExcelBySportIdAsync(sportId));
 
         [HttpGet("{schoolId}/{sportId}")]
         public async Task<IActionResult> GetBySchoolAndSport(int schoolId, int sportId) => Ok(await _teamMemberRepository.GetBySchoolAndSportIdAsync(schoolId, sportId));
 
+        [HttpGet("{schoolId}/{sportId}/excel")]
+        public async Task<IActionResult> GetExcelBySchoolAndSport(int schoolId, int sportId) => Ok(await _teamMemberRepository.GetExcelBySchoolAndSportIdAsync(schoolId, sportId));
+
         [HttpGet("subscription/{subscriptionId}")]
         public async Task<IActionResult> GetBySubscription(int subscriptionId) => Ok(await _teamMemberRepository.GetBySubscriptionIdAsync(subscriptionId));
+
+        [HttpGet("subscription/{subscriptionId}/excel")]
+        public async Task<IActionResult> GetExcelBySubscription(int subscriptionId) => Ok(await _teamMemberRepository.GetExcelBySubscriptionIdAsync(subscriptionId));
     }
 }

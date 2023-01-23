@@ -1,5 +1,6 @@
 ﻿using ZUSA.API.Models.Local;
 using ZUSA.API.Models.Repository.IRepository;
+using ZUSA.API.Services;
 
 namespace ZUSA.API.Models.Repository
 {
@@ -12,12 +13,12 @@ namespace ZUSA.API.Models.Repository
         public ISubscriptionRepository Subscription { get; private set; }
         public ITeamMemberRepository TeamMember { get; private set; }
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(AppDbContext context, IExcelService excelService)
         {
             School = new SchoolRepository(context);
             Sport = new SportRepository(context);
             Subscription = new SubscriptionRepository(context);
-            TeamMember = new TeamMemberRepository(context);
+            TeamMember = new TeamMemberRepository(context, excelService);
             _context = context;
         }
 

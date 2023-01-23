@@ -7,9 +7,13 @@ namespace ZUSA.API.Models.Repository.IRepository
     {
         Task<Result<string>> AddBulkAsync(TeamMembersRequest request);
         Task<Result<IEnumerable<TeamMember>>> GetBySubscriptionIdAsync(int subscriptionId);
+        Task<Result<string>> GetExcelBySubscriptionIdAsync(int subscriptionId);
         Task<Result<TeamMember>> GetByIdAsync(int id);
         Task<Result<IEnumerable<TeamMember>>> GetBySchoolIdAsync(int schoolId);
+        Task<Result<string>> GetExcelBySchoolIdAsync(int schoolId);
         Task<Result<IEnumerable<TeamMember>>> GetBySportIdAsync(int sportId);
+        Task<Result<string>> GetExcelBySportIdAsync(int sportId);
         Task<Result<IEnumerable<TeamMember>>> GetBySchoolAndSportIdAsync(int schoolId, int sportId);
+        Task<Result<string>> GetExcelBySchoolAndSportIdAsync(int schoolId, int sportId);
     }
 }
