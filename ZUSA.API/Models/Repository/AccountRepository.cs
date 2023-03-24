@@ -52,7 +52,7 @@ namespace ZUSA.API.Models.Repository
                 {
                     To = account.Email,
                     Subject = _configuration["EmailService:ConfirmAccountSubject"],
-                    Body = string.Format(_configuration["EmailService:ConfirmAccountBody"], account.FirstName, code)
+                    Body = string.Format(_configuration["EmailService:ConfirmAccountBody"], account.FirstName, code, account.Email)
                 });
 
                 return new Result<Account>(account, "Account created successfully!");
@@ -146,39 +146,43 @@ namespace ZUSA.API.Models.Repository
             return new Result<Account>(account.Data);
         }
 
-        //public async Task<Result<string>> ResendOtpAsync(string email)
-        //{
-        //    var account = await _context.Accounts!.Where(x => x.Email!.Equals(email)).FirstOrDefaultAsync();
-        //    if (account == null) return new Result<string>(false, new List<string>() { "Please ensure you have recently created an account with us!" });
+        public async Task<Result<string>> ResendOtpAsync(string email)
+        {
+            var account = await _context
+                .Accounts!
+                .Where(x => x.Email!.Equals(email))
+                .FirstOrDefaultAsync();
 
-        //    var otpCode = await _context.GeneratedCodes!.Where(x => x.UserEmail == email && x.DateCreated.AddMinutes(10) >= DateTime.Now).FirstOrDefaultAsync();
+            if (account == null) return new Result<string>(false, "Please ensure you have recently created an account with us!");
 
-        //    if (otpCode == null)
-        //    {
-        //        otpCode = new();
-        //        otpCode!.Code = await _codeGeneratorService.GenerateVerificationCode();
+            var otpCode = await _context.OtpCodes!.Where(x => x.Email == email && x.DateCreated.AddMinutes(10) >= DateTime.Now).FirstOrDefaultAsync();
 
-        //        await _context.GeneratedCodes!.AddAsync(new GeneratedCode
-        //        {
-        //            Code = otpCode!.Code,
-        //            UserEmail = email,
-        //            DateCreated = DateTime.Now
-        //        });
+            if (otpCode == null)
+            {
+                otpCode = new();
+                otpCode!.Code = await _codeGeneratorService.GenerateVerificationCode();
 
-        //        await _context.SaveChangesAsync();
-        //    }
+                await _context.OtpCodes!.AddAsync(new OtpCode
+                {
+                    Code = otpCode!.Code,
+                    Email = email,
+                    DateCreated = DateTime.Now
+                });
 
-        //    var emailResult = await _emailService.SendEmailAsync(new EmailRequest
-        //    {
-        //        Subject = _configuration["EmailService:ConfirmAccountSubject"],
-        //        Body = string.Format(_configuration["EmailService:ConfirmAccountBody"], account.FirstNames, otpCode.Code),
-        //        To = email
-        //    });
+                await _context.SaveChangesAsync();
+            }
 
-        //    if (!emailResult.Success) return emailResult;
+            var emailResult = await _emailService.SendEmailAsync(new EmailRequest
+            {
+                Subject = _configuration["EmailService:ConfirmAccountSubject"],
+                Body = string.Format(_configuration["EmailService:ConfirmAccountBody"], account.FirstName, otpCode.Code, account.Email),
+                To = email
+            });
 
-        //    return new Result<string>("OTP code has been sent to your email.");
-        //}
+            if (!emailResult.Success) return new Result<string>("Failed to send email.");
+
+            return new Result<string>("OTP code has been sent to your email.");
+        }
 
         //public async Task<Result<string>> GetResetPasswordCodeAsync(string email)
         //{
