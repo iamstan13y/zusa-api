@@ -44,15 +44,15 @@ namespace ZUSA.API.Controllers
         [HttpGet("paged")]
         public async Task<IActionResult> GetAllPaged([FromQuery] Pagination pagination) => Ok(await _accountRepository.GetAllPagedAsync(pagination));
 
-        //[HttpGet("sign-up/resend-otp/{email}")]
-        //[ProducesResponseType(typeof(Result<string>), StatusCodes.Status200OK)]
-        //public async Task<IActionResult> ResendOtp(string email)
-        //{
-        //    var result = await _accountRepository.ResendOtpAsync(email);
-        //    if (!result.Success) return NotFound(result);
+        [HttpGet("sign-up/resend-otp/{email}")]
+        [ProducesResponseType(typeof(Result<string>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ResendOtp(string email)
+        {
+            var result = await _accountRepository.ResendOtpAsync(email);
+            if (!result.Success) return NotFound(result);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         [HttpPost("login")]
         [ProducesResponseType(typeof(Result<Account>), StatusCodes.Status200OK)]
