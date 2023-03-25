@@ -4,5 +4,6 @@
     {
         public int SchoolId { get; set; }
         public int SportId { get; set; }
+        public char Gender { get; set; }
     }
 }
