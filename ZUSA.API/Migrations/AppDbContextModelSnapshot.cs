@@ -17,7 +17,7 @@ namespace ZUSA.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -134,6 +134,10 @@ namespace ZUSA.API.Migrations
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
