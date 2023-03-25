@@ -42,16 +42,17 @@ namespace ZUSA.API.Controllers
         [HttpGet("school/{schoolId}")]
         public async Task<IActionResult> GetBySchool(int schoolId) => Ok(await _unitOfWork.Subscription.GetBySchoolIdAsync(schoolId));
 
-
         [HttpGet("school/{schoolId}/paged")]
         public async Task<IActionResult> GetBySchoolPaged(int schoolId, [FromQuery] Pagination pagination) => Ok(await _unitOfWork.Subscription.GetPagedBySchoolIdAsync(schoolId, pagination));
+        
         [HttpPost]
         public async Task<IActionResult> Post(SubscriptionRequest request)
         {
             var result = await _unitOfWork.Subscription.AddAsync(new Subscription
             {
                 SportId = request.SportId,
-                SchoolId = request.SchoolId
+                SchoolId = request.SchoolId,
+                Gender = request.Gender
             });
 
             _unitOfWork.SaveChanges();
