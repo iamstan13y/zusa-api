@@ -15,8 +15,8 @@ namespace ZUSA.API.Models.Repository.IRepository
         Task<Result<Account>> LoginAsync(LoginRequest request);
         Task<Result<Account>> ChangePasswordAsync(ChangePasswordRequest changePassword);
         Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination);
-        //Task<Result<string>> GetResetPasswordCodeAsync(string email);
-        //Task<Result<Account>> ResetPasswordAsync(ResetPasswordRequest resetPassword);
+        Task<Result<string>> GetResetPasswordCodeAsync(string email);
+        Task<Result<Account>> ResetPasswordAsync(ResetPasswordRequest resetPassword);
         Task<Result<string>> ResendOtpAsync(string email);
     }
 }
