@@ -217,7 +217,7 @@ namespace ZUSA.API.Models.Repository
             var account = await _context.Accounts!.Where(x => x.Email == resetPassword.UserEmail).FirstOrDefaultAsync();
             var verifyCode = await _context.OtpCodes!
                 .Where(x => x.Email == resetPassword.UserEmail &&
-                x.DateCreated.AddMinutes(10) >= DateTime.Now)
+                x.Code == resetPassword.OtpCode)
                 .FirstOrDefaultAsync();
 
             if (verifyCode == null) return new Result<Account>(false, "Invalid password reset code provided.");
