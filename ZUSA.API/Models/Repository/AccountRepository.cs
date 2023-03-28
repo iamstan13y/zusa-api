@@ -202,7 +202,7 @@ namespace ZUSA.API.Models.Repository
 
             var emailResult = await _emailService.SendEmailAsync(new EmailRequest
             {
-                Body = string.Format(_configuration["EmailService:ResetPasswordBody"], verificationCode),
+                Body = string.Format(_configuration["EmailService:ResetPasswordBody"], account.FirstName, verificationCode),
                 Subject = _configuration["EmailService:ResetPasswordSubject"],
                 To = account.Email
             });
