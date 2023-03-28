@@ -184,52 +184,52 @@ namespace ZUSA.API.Models.Repository
             return new Result<string>("OTP code has been sent to your email.");
         }
 
-        //public async Task<Result<string>> GetResetPasswordCodeAsync(string email)
-        //{
-        //    var account = await _context.Accounts!.SingleOrDefaultAsync(y => y.Email == email);
-        //    if (account == null) return new Result<string>(false, new List<string> { "User account does not exist." });
+        public async Task<Result<string>> GetResetPasswordCodeAsync(string email)
+        {
+            var account = await _context.Accounts!.SingleOrDefaultAsync(y => y.Email == email);
+            if (account == null) return new Result<string>(false, "User account does not exist.");
 
-        //    var verificationCode = await _codeGeneratorService.GenerateVerificationCode();
+            var verificationCode = await _codeGeneratorService.GenerateVerificationCode();
 
-        //    await _context.GeneratedCodes!.AddAsync(new GeneratedCode
-        //    {
-        //        Code = verificationCode,
-        //        UserEmail = account.Email,
-        //        DateCreated = DateTime.Now
-        //    });
+            await _context.OtpCodes!.AddAsync(new OtpCode
+            {
+                Code = verificationCode,
+                Email = account.Email,
+                DateCreated = DateTime.Now
+            });
 
-        //    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        //    var emailResult = await _emailService.SendEmailAsync(new EmailRequest
-        //    {
-        //        Body = string.Format(_configuration["EmailService:ResetCodeBody"], verificationCode),
-        //        Subject = _configuration["EmailService:ResetCodeSubject"],
-        //        To = account.Email
-        //    });
+            var emailResult = await _emailService.SendEmailAsync(new EmailRequest
+            {
+                Body = string.Format(_configuration["EmailService:ResetPasswordBody"], verificationCode),
+                Subject = _configuration["EmailService:ResetPasswordSubject"],
+                To = account.Email
+            });
 
-        //    if (!emailResult.Success) return emailResult;
+            if (!emailResult.Success) return new Result<string>(false, "Failure sending email.");
 
-        //    return new Result<string>("Verification code has been sent to your email.");
-        //}
+            return new Result<string>("Verification code has been sent to your email.");
+        }
 
-        //public async Task<Result<Account>> ResetPasswordAsync(ResetPasswordRequest resetPassword)
-        //{
-        //    var account = await _context.Accounts!.Where(x => x.Email == resetPassword.UserEmail).FirstOrDefaultAsync();
-        //    var verifyCode = await _context.GeneratedCodes!
-        //        .Where(x => x.UserEmail == resetPassword.UserEmail &&
-        //        x.DateCreated.AddMinutes(10) >= DateTime.Now)
-        //        .FirstOrDefaultAsync();
+        public async Task<Result<Account>> ResetPasswordAsync(ResetPasswordRequest resetPassword)
+        {
+            var account = await _context.Accounts!.Where(x => x.Email == resetPassword.UserEmail).FirstOrDefaultAsync();
+            var verifyCode = await _context.OtpCodes!
+                .Where(x => x.Email == resetPassword.UserEmail &&
+                x.DateCreated.AddMinutes(10) >= DateTime.Now)
+                .FirstOrDefaultAsync();
 
-        //    if (verifyCode == null) return new Result<Account>(false, new List<string> { "Invalid password reset code provided." });
+            if (verifyCode == null) return new Result<Account>(false, "Invalid password reset code provided.");
 
-        //    account!.Password = _passwordService.HashPassword(resetPassword.NewPassword!);
+            account!.Password = _passwordService.HashPassword(resetPassword.NewPassword!);
 
-        //    _context.Update(account);
-        //    await _context.SaveChangesAsync();
+            _context.Update(account);
+            await _context.SaveChangesAsync();
 
-        //    return new Result<Account>(account, new List<string> { "Your password has been resetted successfully." });
-        //}
-
+            return new Result<Account>(account, "Your password has been resetted successfully.");
+        }
+        
         public async Task<Result<Pageable<Account>>> GetAllPagedAsync(Pagination pagination)
         {
             var users = await _context.Accounts!.ToListAsync();
