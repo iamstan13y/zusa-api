@@ -50,7 +50,7 @@ namespace ZUSA.API.Models.Repository
 
         public async new Task<Result<Subscription>> AddAsync(Subscription sub)
         {
-            var subs = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == x.SchoolId).ToListAsync();
+            var subs = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == sub.SchoolId).ToListAsync();
             if (subs.Count > 1) return new Result<Subscription>(false, "Sorry! You've used your maximum subscriptions.");
 
             var subscription = await _dbSet.Where(x => x.SportId == sub.SportId && x.SchoolId == sub.SchoolId && sub.Gender == x.Gender).FirstOrDefaultAsync();
